@@ -6,10 +6,36 @@ const rl = readline.createInterface({
   crlfDelay: Infinity
 });
 
-let n, k;
-let averagePrices;
+var n;
+var k;
+var averagePrices;
 
-rl.on('line', (line) => {
-  
-  console.log(`Line from file: ${line}`);
-});
+//retrieves data from txt file
+function getData() {
+  let counter = 0;
+  rl.on('line', (line) => {
+    counter += 1;
+    if (counter === 1){
+      n = line[0];
+      k = line[2];
+    } else {
+      averagePrices = line;
+    }
+
+    if(n && k && averagePrices){
+      parseData();
+    }
+    rl.close();
+  });
+}
+
+
+function parseData(){
+  console.log(n);
+  console.log(k);
+  averagePrices = averagePrices.split(' ').map(Number);
+  console.log(averagePrices);
+
+}
+
+getData();
