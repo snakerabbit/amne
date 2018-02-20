@@ -14,8 +14,9 @@ function getData() {
   rl.on('line', (line) => {
     counter += 1;
     if (counter === 1){
-      n = line[0];
-      k = line[2];
+      let lineArray = line.split(' ');
+      n = lineArray[0];
+      k = lineArray[1];
     } else {
       averagePrices = line;
     }
@@ -25,6 +26,7 @@ function getData() {
     }
     rl.close();
   });
+
 }
 
 //parses n and k into integers, and averagesPrices into array of integers
@@ -34,6 +36,7 @@ function parseData(){
   averagePrices = averagePrices.split(' ').map(Number);
 
   numIncreasingSubranges(averagePrices);
+
 }
 
 //separates array into subsets of k length, and finds number of increasing ranges
@@ -42,6 +45,7 @@ function numIncreasingSubranges(array){
     let subArray = averagePrices.slice(i, k+i);
     console.log(numIncreasing(subArray));
   }
+
 }
 
 //finds number of increasing ranges within subset
