@@ -29,12 +29,58 @@ function getData() {
   });
 }
 
+//[1, 2, 3, 4, 5, 6, 7]
+// n = 6
+// k = 1
+// windows = n-k + 1
+
 
 function parseData(){
-  console.log(n);
-  console.log(k);
+  n = parseInt(n);
+  k = parseInt(k);
+  // console.log(n);
+  // console.log(k);
+
   averagePrices = averagePrices.split(' ').map(Number);
-  console.log(averagePrices);
+  // console.log(averagePrices);
+  numIncreasingSubranges(averagePrices);
+}
+
+function numIncreasingSubranges(array){
+  // let numWindows = n-k+1;
+  for(let i = 0; (k+i)<array.length + 1; i++){
+    let subArray = averagePrices.slice(i, k+i);
+    // console.log(thisThing(subArray));
+  }
+    // let subArray = averagePrices.slice(1, 4);
+    // console.log(thisThing(subArray));
+}
+
+function thisThing(arr){
+  let count = 0;
+  for(let i=0; i<arr.length-1; i++){
+    count += numIncreasing(arr.slice(i, arr.length));
+  }
+  return count;
+}
+
+function numIncreasing(arr){
+  if (arr.length <= 1 ){
+    return 0;
+  }
+  let count = 0;
+  let previous = arr.slice(0, arr.length - 1);
+  let previousNum = numIncreasing(previous);
+  let previousLast = previous[previous.length - 1];
+  if (previousLast < arr[arr.length - 1]){
+    count = previousNum + 1;
+  } else if (previousLast > arr[arr.length-1]){
+    count = previousNum - 1;
+  } else {
+    count = previousNum;
+  }
+
+  return count;
 
 }
 
