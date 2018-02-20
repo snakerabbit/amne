@@ -6,9 +6,7 @@ const rl = readline.createInterface({
   crlfDelay: Infinity
 });
 
-var n;
-var k;
-var averagePrices;
+var n, k, averagePrices;
 
 //retrieves data from txt file
 function getData() {
@@ -29,59 +27,67 @@ function getData() {
   });
 }
 
-//[1, 2, 3, 4, 5, 6, 7]
-// n = 6
-// k = 1
-// windows = n-k + 1
-
-
+//parses n and k into integers, and averagesPrices into array of integers
 function parseData(){
   n = parseInt(n);
   k = parseInt(k);
-  // console.log(n);
-  // console.log(k);
-
   averagePrices = averagePrices.split(' ').map(Number);
-  // console.log(averagePrices);
+
   numIncreasingSubranges(averagePrices);
 }
 
+//separates array into subsets of k length, and finds number of increasing ranges
 function numIncreasingSubranges(array){
-  // let numWindows = n-k+1;
   for(let i = 0; (k+i)<array.length + 1; i++){
     let subArray = averagePrices.slice(i, k+i);
-    // console.log(thisThing(subArray));
+    console.log(numIncreasing(subArray));
   }
-    // let subArray = averagePrices.slice(1, 4);
-    // console.log(thisThing(subArray));
 }
 
-function thisThing(arr){
+//finds number of increasing ranges within subset
+function numIncreasing(array){
   let count = 0;
-  for(let i=0; i<arr.length-1; i++){
-    count += numIncreasing(arr.slice(i, arr.length));
+  for(let i=0; i< array.length; i++){
+    count += num(array.slice(i, array.length));
   }
   return count;
 }
-
-function numIncreasing(arr){
-  if (arr.length <= 1 ){
+//recursive function to find all ranges within a range
+function num(array){
+  if (array.length <= 1){
     return 0;
   }
-  let count = 0;
-  let previous = arr.slice(0, arr.length - 1);
-  let previousNum = numIncreasing(previous);
-  let previousLast = previous[previous.length - 1];
-  if (previousLast < arr[arr.length - 1]){
-    count = previousNum + 1;
-  } else if (previousLast > arr[arr.length-1]){
-    count = previousNum - 1;
-  } else {
-    count = previousNum;
+
+  let count = num(array.slice(0, array.length - 1));
+  if(isIncreasing(array)){
+    count += 1;
+  } else if (isDecreasing(array)){
+    count -= 1;
   }
-
   return count;
-
 }
 
+
+//determines if entire array is increasing
+function isIncreasing(array){
+  for(let i =0; i<array.length - 1; i++){
+    if(array[i + 1] < array[i]){
+      return false;
+    }
+  }
+
+  return true;
+}
+
+//determines if entire array is decreasing
+function isDecreasing(array){
+  for(let i =0; i < array.length - 1; i++){
+    if(array[i] < array[i + 1]){
+      return false;
+    }
+  }
+  return true;
+}
+
+//calls function
 getData();
